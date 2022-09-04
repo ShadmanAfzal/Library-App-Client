@@ -2,10 +2,11 @@ import React from 'react';
 import { AppBar } from './Appbar';
 import { Formik, Form } from "formik";
 import { TextField } from './TextField';
-import bookImage from '../assets/book.jpg';
+import { useNavigate } from "react-router-dom";
+import { GenreSelector } from './GenreSelector';
+import { BASE_URL } from "../../utils/strings.js"
+import bookImage from '../../assets/book.jpg';
 import * as Yup from "yup";
-import { BASE_URL } from '../utils/strings';
-import {useNavigate} from "react-router-dom";
 
 export const AddBook = () => {
 
@@ -25,15 +26,16 @@ export const AddBook = () => {
         author: "",
         description: "",
         photo_url: "",
+        genre: ""
     }
 
     const onSubmitHandler = async (values) => {
         console.log(JSON.stringify(values));
 
         const fetchResult = await fetch(`${BASE_URL}/books`, {
-            method: 'POST', body: JSON.stringify(values), headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
+            method: 'POST',
+            body: JSON.stringify(values),
+            headers: { "Content-type": "application/json; charset=UTF-8" }
         });
         const jsonResult = await fetchResult.json();
 
@@ -66,15 +68,16 @@ export const AddBook = () => {
                             }>
                                 <TextField label="Title" name="title" type="text" />
                                 <TextField label="Author" name="author" type="text" />
-                                <TextField label="Description" name="description" type="text" />
+                                <TextField useTextArea label="Description" name="description" type="text" />
                                 <TextField label="Image" name="photo_url" type="url" />
+                                <GenreSelector onGenreChange={(genre) => formik.values.genre = genre} />
                                 <button className={`btn w-75 my-2 btn-dark`}>Submit</button>
                             </Form>
                         }}
                     </Formik>
                 </div>
                 <div className='col-md-5'>
-                    <img src={bookImage} className='img-fluid my-auto w-100' alt='bookImage' />
+                    <img src={bookImage} className='img-fluid my-auto' alt='bookImage' />
                 </div>
 
             </div>
