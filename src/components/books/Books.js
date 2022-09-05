@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BASE_URL } from "../../utils/strings";
 import { BookTable } from "./BookTable";
 import { Dropdown } from "../../utils/Dropdown";
-import { BOOK_CATEGORY } from "../../utils/BookGenre";
+import { BOOK_CATEGORY, SORT_BY } from "../../utils/enum";
 import { Pagination } from "@mui/material";
 
 export const Books = () => {
@@ -11,6 +11,7 @@ export const Books = () => {
     const [totalPage, setTotalPage] = useState();
     const [filter, setFilter] = useState();
     const [page, setPage] = useState(1);
+    const [sortBy, setSortBy] = useState();
 
     const onDeleteHanlder = async (id) => {
 
@@ -29,7 +30,14 @@ export const Books = () => {
 
     async function fetchBooks(page) {
 
-        const response = await fetch(`${BASE_URL}/books?page=${page}`);
+        let response;
+
+        if (sortBy) {
+            response = await fetch(`${BASE_URL}/books?sortBy=${sortBy}&page=${page}`);
+        } else {
+            response = await fetch(`${BASE_URL}/books?page=${page}`);
+        }
+
 
         const responseBody = await response.json();
 
@@ -42,7 +50,18 @@ export const Books = () => {
 
     const fetchFilterBooks = async (page) => {
 
-        const response = await fetch(`${BASE_URL}/books/filter?page=${page}`,
+        let uri;
+
+        if (sortBy) {
+            uri = `${BASE_URL}/books/filter?sortBy=${sortBy}&page=${page}`;
+        }
+        else {
+            uri = `${BASE_URL}/books/filter?page=${page}`;
+        }
+
+        console.log(uri);
+
+        const response = await fetch(uri,
             {
                 method: 'POST',
                 body: JSON.stringify({
@@ -61,10 +80,24 @@ export const Books = () => {
         setBooks(books);
     }
 
-    const filterHandler = async (filter) => {
+    const filterHandler = (filter) => {
         setFilter(filter);
         setPage(1);
     }
+
+    const sortHandler = (sortBy) => {
+        setSortBy(sortBy);
+        setPage(1);
+    }
+
+    useEffect(() => {
+        if (filter) {
+            fetchFilterBooks(1);
+        }
+        else {
+            fetchBooks(1);
+        }
+    }, [sortBy]);
 
     useEffect(() => {
         fetchFilterBooks(1);
@@ -75,7 +108,12 @@ export const Books = () => {
     }, []);
 
     return <div className="container my-2">
-        <Dropdown filterHandler={filterHandler} values={BOOK_CATEGORY} />
+        <div className="d-flex justify-content-end">
+            <div className="d-flex gap-2">
+                <Dropdown title={'Sort By'} filterHandler={sortHandler} values={SORT_BY} />
+                <Dropdown title={'Filter By'} filterHandler={filterHandler} values={BOOK_CATEGORY} />
+            </div>
+        </div>
         <BookTable books={books} onDelete={onDeleteHanlder} />
         <div className="d-flex justify-content-center">
             <Pagination

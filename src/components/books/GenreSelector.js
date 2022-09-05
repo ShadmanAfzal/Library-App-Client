@@ -1,19 +1,27 @@
 import { useState, useEffect } from "react";
-import { BOOK_CATEGORY } from "../../utils/BookGenre"
 import { Chip } from "@mui/material";
 
-export const GenreSelector = ({onGenreChange, initialValue}) => {
+const genreArray = [
+    'Comedy',
+    'Science fiction',
+    'Biography',
+    'Triller',
+    'Action',
+    'Comic',
+    'Mystery',
+    'Historical'
+];
+
+export const GenreSelector = ({ onGenreChange, initialValue }) => {
 
     const [genre, setGenre] = useState([]);
-
-    const genreArray = BOOK_CATEGORY;
 
     useEffect(() => {
         const genre = [];
 
         genreArray.map(() => genre.push(false));
 
-        if(initialValue){
+        if (initialValue) {
             let index = genreArray.findIndex((val) => val === initialValue);
             genre[index] = true;
         }
