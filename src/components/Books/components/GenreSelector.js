@@ -27,7 +27,7 @@ export const GenreSelector = ({ onGenreChange, initialValue }) => {
         }
 
         setGenre(genre);
-    }, [])
+    }, [initialValue])
 
     const changeHandler = (index) => {
         const temp = Array(genre.length).fill(false);
@@ -38,7 +38,7 @@ export const GenreSelector = ({ onGenreChange, initialValue }) => {
     }
 
 
-    return <div className="w-75 my-2">
+    return <div className="genreSelector my-2">
         <h5 className="my-2">Select Genre</h5>
         <div className='col'>
             {

@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
-body{
-    font-family: 'Open Sans', sans-serif;
+*{
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
 }

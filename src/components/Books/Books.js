@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { BASE_URL } from "../../utils/strings";
-import { BookTable } from "./BookTable";
+import { BookTable } from "./components/BookTable";
 import { Dropdown } from "../../utils/Dropdown";
-import { BOOK_CATEGORY, SORT_BY } from "../../utils/enum";
 import { Pagination } from "@mui/material";
+import { BOOK_CATEGORY, SORT_BY } from "../../utils/enum";
 
 export const Books = () => {
 
@@ -50,6 +50,8 @@ export const Books = () => {
 
     const fetchFilterBooks = async (page) => {
 
+        if(!filter) return;
+
         let uri;
 
         if (sortBy) {
@@ -58,8 +60,6 @@ export const Books = () => {
         else {
             uri = `${BASE_URL}/books/filter?page=${page}`;
         }
-
-        console.log(uri);
 
         const response = await fetch(uri,
             {

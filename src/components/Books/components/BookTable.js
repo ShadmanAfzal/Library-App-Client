@@ -1,13 +1,14 @@
 import React from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi"
 import { useNavigate } from "react-router-dom";
+import "./css/BookTableStyle.css";
 
 export const BookTable = ({ books, onDelete }) => {
 
     const naviator = useNavigate();
 
     const editBook = (book) => {
-        naviator('/edit', { state: book })
+        naviator(`/edit/${book.id}`);
     }
 
     return <table className="table table-hover table-borderless">
@@ -31,8 +32,8 @@ export const BookTable = ({ books, onDelete }) => {
                         <td scope="row" className="col-4">{book.description.slice(0,100)} {book.description.length >= 100 ? '...': ''}</td>
                         <td scope="row" className="col-1">{book.genre}</td> 
                         <td scope="row" className="col-2">
-                            <FiEdit onClick={() => editBook(book)} className="mx-2" />
-                            <FiTrash2 onClick={() => onDelete(book.id)} className="deleteIcon" />
+                            <FiEdit onClick={() => editBook(book)} className="icon mx-2" />
+                            <FiTrash2 onClick={() => onDelete(book.id)} className="icon" />
                         </td>
                     </tr>
                 )

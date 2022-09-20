@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Books } from './components/books/Books';
+import { Books } from './components/Books/Books.js';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from 'react';
 
@@ -10,13 +10,13 @@ function App() {
 
   const searchHandler = (e) => {
     e.preventDefault();
-    navigator('/search',{state: query})
+    navigator(`/search?query=${query}`)
   }
 
   return (
     <div>
       <div className="navbar navbar-dark bg-dark justify-content-between">
-        <a className="navbar-brand px-2" href="#">Library App</a>
+        <a className="navbar-brand px-2" href="/">Library App</a>
         <div className='d-flex'>
           <form class="form-inline mx-2" onSubmit={searchHandler}>
             <input class="form-control border-none shadow-none mr-sm-2" type="search" placeholder="Search" aria-label="Search"
